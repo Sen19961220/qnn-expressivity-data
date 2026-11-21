@@ -1,0 +1,160 @@
+{
+  "architecture": [
+    4,
+    3,
+    1
+  ],
+  "target_split": {
+    "algorithm_id": "complement_pair_hash_split_excluding_c017_dense_v1",
+    "salt": "P-MAIN-EPS-RETUNE-v2|20260809|target-split-v1",
+    "historical_exclusion_source_sha256": "d07983ecc3b6f738857231006e5b59ec75157f994267ed5667a17d0b49df0794",
+    "historical_exclusion_set_id": "fig5b_fig8b_431_dense4096",
+    "calibration_pair_count": 512,
+    "calibration_target_count": 1024,
+    "confirmation_pair_count": 2048,
+    "confirmation_target_count": 4096
+  },
+  "target_panel_reused_and_previously_observed": true,
+  "branches": {
+    "map1": {
+      "epsilon_anchor": 0.1,
+      "stored_dimension": 20,
+      "active_dimension": 19,
+      "labels": "1-canonicalbit; prediction=(Z>0)",
+      "backend": "factorized_exact_Map1_with_reduced_oracle_boundary_fallback"
+    },
+    "signsin2": {
+      "epsilon_anchor": 0.125,
+      "stored_dimension": 19,
+      "active_dimension": 19,
+      "labels": "1+canonicalbit; strict-positive sin(2u)",
+      "backend": "literal_frozen_SignSin2_vectorized"
+    }
+  },
+  "epsilon_k": [
+    -3,
+    -2,
+    -1,
+    0,
+    1,
+    2,
+    3
+  ],
+  "selection_rule": "lexmax(C,min_seed_success,-V,-abs(k),-k); V=5*sum(seed_success**2)-C**2; independent per branch",
+  "optimizer": {
+    "T0": 10.0,
+    "Tmin": 0.01,
+    "max_steps": 2000,
+    "cooling_rule": "cooling=exp(log(Tmin/T0)/max_steps)",
+    "independent_endpoint_run": true,
+    "hold_at_tmin": false,
+    "stop_on_exact_fit": true,
+    "exact_fit_tol": 1e-12,
+    "acceptance_mode": "legacy",
+    "rng_policy": "single_stream_legacy",
+    "parameter_initialization": "historical P-MAIN uniform[-2pi,2pi] implementation",
+    "proposal": "historical P-MAIN additive independent uniform[-epsilon,+epsilon] implementation"
+  },
+  "stages": {
+    "calibration": {
+      "targets": 1024,
+      "seeds": [
+        21001,
+        21002,
+        21003,
+        21004,
+        21005
+      ],
+      "max_steps": 2000,
+      "expected_rows": 71680
+    },
+    "confirmation": {
+      "targets": 4096,
+      "seeds": [
+        22001,
+        22002,
+        22003,
+        22004,
+        22005,
+        22006,
+        22007,
+        22008,
+        22009,
+        22010
+      ],
+      "max_steps": 2000,
+      "expected_rows": 81920
+    }
+  },
+  "selected_candidates": {
+    "map1": {
+      "V": 8904,
+      "epsilon_hex": "0x1.999999999999ap-4",
+      "k": 0,
+      "min_seed_success": 618,
+      "seed_counts": [
+        618,
+        622,
+        643,
+        648,
+        670
+      ],
+      "selection_key": [
+        3201,
+        618,
+        -8904,
+        0,
+        0
+      ],
+      "total_success": 3201
+    },
+    "signsin2": {
+      "V": 13654,
+      "epsilon_hex": "0x1.0000000000000p-3",
+      "k": 0,
+      "min_seed_success": 447,
+      "seed_counts": [
+        499,
+        500,
+        447,
+        506,
+        464
+      ],
+      "selection_key": [
+        2416,
+        447,
+        -13654,
+        0,
+        0
+      ],
+      "total_success": 2416
+    }
+  },
+  "bootstrap": {
+    "method": "crossed paired bootstrap over complement-pair clusters and optimizer seeds",
+    "replicates": 100000,
+    "rng_seed": 31031,
+    "ci_level": 0.95
+  },
+  "recorded_results": {
+    "branch_rates": {
+      "map1": 0.6433837890625,
+      "signsin2": 0.4756103515625
+    },
+    "paired_difference_fraction": 0.1677734375,
+    "paired_difference_95ci_fraction": [
+      0.1570556640625,
+      0.1785400390625
+    ],
+    "positive_seed_count": 10
+  },
+  "data_conventions": {
+    "parameter_coordinates": "Unmodified coordinates of the numerical implementation, before manuscript angle and label reparameterization.",
+    "canonical_bits": "Binary truth table in lexicographic input order, from 0000 to 1111; target_index is the unsigned integer encoded by the sixteen canonical bits.",
+    "map1_native_target": "1 - canonical bit; canonical prediction is 1 - int(output Pauli-Z expectation > 0).",
+    "signsin2_native_target": "1 + canonical bit; canonical prediction is int(sin(2u) > 0).",
+    "QNN_parameter_array": "4 by 5: rows 0..2 store each hidden bias in column 0 and four input weights in columns 1..4. Row 3 stores output bias in column 0 and three hidden weights in columns 1..3. Row 3 column 4 is an unused stored slot.",
+    "CNN_parameter_array": "19 values: first 12 are the 3 by 4 hidden weight matrix in row-major order, next 3 hidden biases, next 3 output weights, final output bias.",
+    "trace_scope": "Endpoint records preserve best/final parameters and predictions. Full per-step optimization trajectories are not included in these endpoint files."
+  }
+}
